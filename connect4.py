@@ -220,8 +220,3 @@ class game:
 
         return total_count
 
-g = game()
-g.drop(1, 1)
-g.drop(1, 1)
-
-print(g.cummulative_connections(0))
