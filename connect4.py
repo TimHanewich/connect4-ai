@@ -1,3 +1,5 @@
+import math
+
 
 class game:
 
@@ -90,5 +92,72 @@ class game:
             return True
         else:
             return False
+
+    def longest_connect(self, value:int) -> int:
+
+        max_seen:int = 0
+        
+        # verticals
+        max_seen = max(max_seen, self.__longest_connect__(1, 1, 1, 0, value))
+        max_seen = max(max_seen, self.__longest_connect__(1, 2, 1, 0, value))
+        max_seen = max(max_seen, self.__longest_connect__(1, 3, 1, 0, value))
+        max_seen = max(max_seen, self.__longest_connect__(1, 4, 1, 0, value))
+        max_seen = max(max_seen, self.__longest_connect__(1, 5, 1, 0, value))
+        max_seen = max(max_seen, self.__longest_connect__(1, 6, 1, 0, value))
+        max_seen = max(max_seen, self.__longest_connect__(1, 7, 1, 0, value))
+
+        # horizontals
+        max_seen = max(max_seen, self.__longest_connect__(1, 1, 0, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(2, 1, 0, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(3, 1, 0, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(4, 1, 0, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(5, 1, 0, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 1, 0, 1, value))
+
+        # diaganols
+        max_seen = max(max_seen, self.__longest_connect__(1, 1, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(2, 1, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(3, 1, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(4, 1, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(5, 1, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 1, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 2, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 3, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 4, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 5, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 6, -1, 1, value))
+        max_seen = max(max_seen, self.__longest_connect__(6, 7, -1, 1, value))
+
+        return max_seen
+        
+    def __longest_connect__(self, start_row:int, start_col:int, row_add:int, col_add:int, value:int) -> int:
+        
+        on_row:int = start_row
+        on_col:int = start_col
+
+        on_chain:int = 0
+        longest_seen:int = 0
+
+        while True:
+
+            # test
+            occ = self.occupying(on_row, on_col)
+            if occ == value:
+                on_chain = on_chain + 1
+            else:
+                if on_chain > longest_seen:
+                    longest_seen = on_chain
+                on_chain = 0
+
+            # increment
+            on_row = on_row + row_add
+            on_col = on_col + col_add
+
+            # if we are over, quit
+            if on_row > 6:
+                return max(longest_seen, on_chain)
+            elif on_col > 7:
+                return max(longest_seen, on_chain)
+                
 
 
