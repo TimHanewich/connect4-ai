@@ -159,5 +159,69 @@ class game:
             elif on_col > 7:
                 return max(longest_seen, on_chain)
                 
+    def cummulative_connections(self, value:int) -> int:
 
+        total_count:int = 0
 
+        for r in range(1, 7):
+            for c in range(1, 8):
+            
+                occ:int = self.occupying(r, c)
+
+                if occ == value:
+
+                    # above?
+                    if r > 1:
+                        occ2 = self.occupying(r - 1, c)
+                        if occ2 == value:
+                            total_count = total_count + 1
+                    
+                    # below?
+                    if r < 6:
+                        occ2 = self.occupying(r + 1, c)
+                        if occ2 == value:
+                            total_count = total_count + 1
+                    
+                    # left?
+                    if c > 1:
+                        occ2 = self.occupying(r, c - 1)
+                        if occ2 == value:
+                            total_count = total_count + 1
+                    
+                    # right?
+                    if c < 7:
+                        occ2 = self.occupying(r, c + 1)
+                        if occ2 == value:
+                            total_count = total_count + 1
+
+                    # up, left?
+                    if r > 1 and c > 1:
+                        occ2 = self.occupying(r - 1, c - 1)
+                        if occ2 == value:
+                            total_count = total_count + 1
+
+                    # up, right?
+                    if r > 1 and c < 7:
+                        occ2 = self.occupying(r - 1, c + 1)
+                        if occ2 == value:
+                            total_count = total_count + 1
+                    
+                    # down, right?
+                    if r < 6 and c < 7:
+                        occ2 = self.occupying(r + 1, c + 1)
+                        if occ2 == value:
+                            total_count = total_count + 1
+                    
+                    # down, left?
+                    if r < 6 and c > 1:
+                        occ2 = self.occupying(r + 1, c - 1)
+                        if occ2 == value:
+                            total_count = total_count + 1
+
+        return total_count
+
+g = game()
+g.drop(1, 1)
+g.drop(1, 1)
+
+print(g.cummulative_connections(0))
