@@ -53,6 +53,7 @@ class game:
         else:
             raise Exception("Invalid move! Unable to drop value '" + str(value) + "' on column '" + str(column) + "'. That column is full.")
 
+    # if a particular value (player) is winning
     def winning_for(self, value:int) -> bool:
 
         # Check horizontal locations for win
@@ -82,6 +83,7 @@ class game:
         # if it got this far, no, nobody has won
         return False
     
+    # if either side is winning
     def winning(self) -> bool:
         
         if self.winning_for(1) or self.winning_for(-1):
