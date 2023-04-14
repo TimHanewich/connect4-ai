@@ -1,4 +1,5 @@
 import math
+import random
 
 
 class game:
@@ -219,4 +220,42 @@ class game:
                             total_count = total_count + 1
 
         return total_count
+
+    def random_move(self, value:int) -> int:
+
+        # check if the tops are full (no move available)
+        occ1 = self.occupying(1, 1)
+        occ2 = self.occupying(1, 2)
+        occ3 = self.occupying(1, 3)
+        occ4 = self.occupying(1, 4)
+        occ5 = self.occupying(1, 5)
+        occ6 = self.occupying(1, 6)
+        occ7 = self.occupying(1, 7)
+
+        if occ1 != 0 and occ2 != 0 and occ3 != 0 and occ4 != 0 and occ5 != 0 and occ6 != 0 and occ7 != 0:
+            raise Exception("Unable to make random move! All columns are full!")
+        
+        # create a list of ones that are available
+        available_columns = []
+        if occ1 == 0:
+            available_columns.append(1)
+        if occ2 == 0:
+            available_columns.append(2)
+        if occ3 == 0:
+            available_columns.append(3)
+        if occ4 == 0:
+            available_columns.append(4)
+        if occ5 == 0:
+            available_columns.append(5)
+        if occ6 == 0:
+            available_columns.append(6)
+        if occ7 == 0:
+            available_columns.append(7)
+
+        # choose from that list random
+        column_to_move = available_columns[random.randint(0, len(available_columns)-1)]
+
+        # make the move
+        self.drop(value, column_to_move)
+
 
