@@ -258,4 +258,10 @@ class game:
         # make the move
         self.drop(value, column_to_move)
 
-
+    def flatten(self):
+        ToReturn = []
+        for r in range(1, 7):
+            for c in range(1, 8):
+                ToReturn.append(self.board[r-1][c-1])
+        return ToReturn
+    
