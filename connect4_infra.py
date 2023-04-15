@@ -25,23 +25,11 @@ def net_weighted_score(g:connect4.game, value:int) -> float:
 
     return my_score - opponent_score
 
-class move_decision:
+class experience:
 
     def __init__(self) -> None:
 
-        self.state = []
-        self.decision:int = 0 # column number (1 through 7)
-
-class result(enum.Enum):
-    loss = 0 # the opponent got 4 in a row
-    loss_outscored = 1 # the game wasn't actually lost (the opponent did not get 4 in a row), but they outscored us
-    disqualified = 2 # attempt at illegal move was made
-    win_outscored = 3 # the game wasn't actually won (we did not get 4 in a row), but we outscored our opponent.
-    win = 4 # we got 4 in a row
-
-class game_result:
-
-    def __init__(self) -> None:
-        self.move_decisions = []
-        self.termination:result = -1 # was it a win, a loss, etc?
-        self.net_weighted_score = 0.0
+        self.state = [] # board state (flat array)
+        self.action:int = 0 # column number that was decided to drop one on (1 through 7)
+        self.reward:float = 0.0 # the weighted score after both my move AND the opponents move (i.e. if I make a bad move and leave a hole open for my opponent, that is a negative reward)
+        self.next_state = [] # board state after my move was made (after the opponent's move too)
