@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy
 import random
 import connect4
-import training_resources
+import training_tools
 
 inputs:tf.keras.layers.Dense = tf.keras.layers.Input(42)
 h1:tf.keras.layers.Dense = tf.keras.layers.Dense(600, "relu")
