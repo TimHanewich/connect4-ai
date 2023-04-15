@@ -31,5 +31,5 @@ class experience:
 
         self.state = [] # board state (flat array)
         self.action:int = 0 # column number that was decided to drop one on (1 through 7)
-        self.reward:float = 0.0 # the weighted score after both my move AND the opponents move (i.e. if I make a bad move and leave a hole open for my opponent, that is a negative reward)
+        self.reward:float = 0.0 # the CHANGE in the net weighted score between the state before and the state aftr my move. (i.e. if I make a bad move and leave a hole open for my opponent, that is a negative reward)
         self.next_state = [] # board state after my move was made (after the opponent's move too)
