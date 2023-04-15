@@ -34,9 +34,18 @@ class experience:
         self.reward:float = 0.0 # the CHANGE in the net weighted score between the state before and the state aftr my move. (i.e. if I make a bad move and leave a hole open for my opponent, that is a negative reward)
         self.next_state = [] # board state after my move was made (after the opponent's move too)
 
-
+# Selects the column move decision from neural network 7 outputs
 def select_column_from_outputs(outputs) -> int:
     if len(outputs) != 7:
         raise Exception("The number of outputs of this neural network was not 7! Unable to select a column.")
     else:
-        
+
+        chosen_column:int = 1
+        on_column = 1
+
+        for v in outputs:
+            if v == max(outputs):
+                chosen_column = on_column
+            on_column = on_column + 1
+
+        return chosen_column
