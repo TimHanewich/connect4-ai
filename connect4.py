@@ -265,6 +265,23 @@ class game:
                 ToReturn.append(self.board[r-1][c-1])
         return ToReturn
     
+    def load(self, flattened) -> None:
+        if len(flattened) != 42:
+            raise Exception("The number of slots in the data was not 42. Invalid state!")
+        else:
+            r = 1
+            c = 1
+            for v in flattened:
+                self.set(r, c, v)
+
+                # increment
+                if c < 7:
+                    c = c + 1
+                else:
+                    r = r + 1
+                    c = 1
+    
+    
     def full(self) -> bool:
         all_full = True
         for row in self.board:
