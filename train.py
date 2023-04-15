@@ -4,14 +4,14 @@ import random
 import connect4
 import training_tools
 
-inputs:tf.keras.layers.Dense = tf.keras.layers.Input(42)
-h1:tf.keras.layers.Dense = tf.keras.layers.Dense(600, "relu")
-h2:tf.keras.layers.Dense = tf.keras.layers.Dense(500, "relu")
-h3:tf.keras.layers.Dense = tf.keras.layers.Dense(400, "relu")
-h4:tf.keras.layers.Dense = tf.keras.layers.Dense(250, "relu")
-h5:tf.keras.layers.Dense = tf.keras.layers.Dense(150, "relu")
-h6:tf.keras.layers.Dense = tf.keras.layers.Dense(50, "relu")
-outputs:tf.keras.layers.Dense = tf.keras.layers.Dense(7)
+inputs:tf.keras.layers.Dense = tf.keras.layers.Input(42, kernel_initializer="random_uniform")
+h1:tf.keras.layers.Dense = tf.keras.layers.Dense(600, "relu", kernel_initializer="random_uniform")
+h2:tf.keras.layers.Dense = tf.keras.layers.Dense(500, "relu", kernel_initializer="random_uniform")
+h3:tf.keras.layers.Dense = tf.keras.layers.Dense(400, "relu", kernel_initializer="random_uniform")
+h4:tf.keras.layers.Dense = tf.keras.layers.Dense(250, "relu", kernel_initializer="random_uniform")
+h5:tf.keras.layers.Dense = tf.keras.layers.Dense(150, "relu", kernel_initializer="random_uniform")
+h6:tf.keras.layers.Dense = tf.keras.layers.Dense(50, "relu", kernel_initializer="random_uniform")
+outputs:tf.keras.layers.Dense = tf.keras.layers.Dense(7, kernel_initializer="random_uniform")
 
 model = tf.keras.Sequential()
 model.add(inputs)
