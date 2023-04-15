@@ -14,3 +14,10 @@
         8. For each experience in the batch, calculate loss between output Q-values and target (optimal) Q-values.
             - Doing this *will* require a second pass through the network for the next state.
         9. Gradient descent updates weightes in the policy network to minimize loss (backpropogate/train network).
+
+## Target (Optimal Q) Equation
+Taken from https://youtu.be/0bt0SjbS3xc?t=269 at 4:29  
+![target q](./target_q.png)
+- **Rt+1** is the reward at this time step.
+- **The gamma (y looking thing)** is the discount factor. Use 0.99.
+- **maxq(s1,a1)** is the highest q value output out of any of the values outputted from the network for the NEXT state action pair that is for the state that occurs AFTER the action in this time step is chosen.
