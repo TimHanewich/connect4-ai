@@ -33,3 +33,10 @@ class experience:
         self.action:int = 0 # column number that was decided to drop one on (1 through 7)
         self.reward:float = 0.0 # the CHANGE in the net weighted score between the state before and the state aftr my move. (i.e. if I make a bad move and leave a hole open for my opponent, that is a negative reward)
         self.next_state = [] # board state after my move was made (after the opponent's move too)
+
+
+def select_column_from_outputs(outputs) -> int:
+    if len(outputs) != 7:
+        raise Exception("The number of outputs of this neural network was not 7! Unable to select a column.")
+    else:
+        

@@ -4,7 +4,7 @@ import random
 import connect4
 import training_tools
 
-inputs:tf.keras.layers.Dense = tf.keras.layers.Input(42, kernel_initializer="random_uniform")
+inputs:tf.keras.layers.Dense = tf.keras.layers.Input(42)
 h1:tf.keras.layers.Dense = tf.keras.layers.Dense(600, "relu", kernel_initializer="random_uniform")
 h2:tf.keras.layers.Dense = tf.keras.layers.Dense(500, "relu", kernel_initializer="random_uniform")
 h3:tf.keras.layers.Dense = tf.keras.layers.Dense(400, "relu", kernel_initializer="random_uniform")
@@ -27,5 +27,15 @@ model.compile("adam", "mean_squared_error")
 
 
 
+g:connect4.game = connect4.game()
 
+while True:
+
+    # get model outputs
+    inputs = numpy.array([g.flatten()])
+    outputs = model.predict(inputs)[0]
+
+    # create an emulator and execute 
+    emulator:connect4.game = connect4.game()
+    emulator.load(g.flatten())
         
