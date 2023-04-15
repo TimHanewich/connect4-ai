@@ -1,5 +1,6 @@
 import connect4
 import enum
+import random
 
 # Provides a score for a single player (value)
 def weighted_score(g:connect4.game, value:int) -> float:
@@ -49,3 +50,9 @@ def select_column_from_outputs(outputs) -> int:
             on_column = on_column + 1
 
         return chosen_column
+    
+# made by GPT-4
+def random_sample(lst, percentage:float):
+    k = int(len(lst) * percentage)
+    indices = random.sample(range(len(lst)), k)
+    return [lst[i] for i in indices]
