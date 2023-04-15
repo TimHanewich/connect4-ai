@@ -114,7 +114,7 @@ while True:
         g:connect4.game = connect4.game()
         print("Simulating game # " + str(x+1) + "... ", end="")
         game_result:connect4_infra.game_result = play_to_completion(g, model)
-        print(game_result.termination)
+        print(str(game_result.termination))
         game_results.append(game_result)
 
 
@@ -136,6 +136,9 @@ while True:
     for game_result in prime_games_to_choose_from:
         if game_result.net_weighted_score > best_game.net_weighted_score:
             best_game = game_result
+
+    # print some details about the best game
+    print("Highest score: " + str(best_game.net_weighted_score) + " (" + str(best_game.termination) + ")")
 
     # train on that game
     x_train = []
