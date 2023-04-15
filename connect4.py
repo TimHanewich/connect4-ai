@@ -221,7 +221,7 @@ class game:
 
         return total_count
 
-    def random_move(self, value:int) -> int:
+    def random_move(self, value:int) -> None:
 
         # check if the tops are full (no move available)
         occ1 = self.occupying(1, 1)
