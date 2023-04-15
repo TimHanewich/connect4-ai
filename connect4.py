@@ -265,3 +265,11 @@ class game:
                 ToReturn.append(self.board[r-1][c-1])
         return ToReturn
     
+    def full(self) -> bool:
+        all_full = True
+        for row in self.board:
+            for col in row:
+                if col == 0:
+                    all_full = False
+        return all_full
+    
