@@ -105,6 +105,60 @@ def play_to_completion(g:connect4.game, m:tf.keras.Sequential) -> connect4_infra
         my_turn = not my_turn
 
 
+# TRAIN!
+while True:
+
+    # play 20 games
+    game_results = []
+    for x in range(20):
+        g:connect4.game = connect4.game()
+        print("Simulating game # " + str(x+1) + "... ", end="")
+        game_result:connect4_infra.game_result = play_to_completion(g, model)
+        print(game_result.termination)
+        game_results.append(game_result)
+
+
+    # select the best game
+
+    # first, make a list of those that were won or lost at least LEGALLY. And NOT loss by disqualification (illegal move)
+    prime_games_to_choose_from = []
+    for game_result in game_results:
+        if game_result.termination != connect4_infra.result.disqualified:
+            prime_games_to_choose_from.append(game_result)
+
+    # if we have no prime games to choose from (none were won or lost legally, add them all in)
+    if len(prime_games_to_choose_from) == 0:
+        for game_result in game_results:
+            prime_games_to_choose_from.append(game_result)
+
+    # select the best out of this bunch
+    best_game:connect4_infra.game_result = prime_games_to_choose_from[0]
+    for game_result in prime_games_to_choose_from:
+        if game_result.net_weighted_score > best_game.net_weighted_score:
+            best_game = game_result
+
+    # train on that game
+    x_train = []
+    y_train = []
+    for md in best_game.move_decisions:
+        md:connect4_infra.move_decision
+
+        # append to x train
+        x_train.append(md.state)
+
+        # append to y train
+        y_data = [0, 0, 0, 0, 0, 0, 0]
+        y_data[md.decision-1] = 1
+        y_train.append(y_data)
+
+    # train
+    _x_train = numpy.array(x_train)
+    _y_train = numpy.array(y_train)
+    print("Training... ", end="")
+    model.fit(_x_train, _y_train, epochs=50, verbose=False)
+    print("Complete!")
+
+
 
 
         
