@@ -35,6 +35,8 @@ class experience:
         self.reward:float = 0.0 # the CHANGE in the net weighted score between the state before and the state aftr my move. (i.e. if I make a bad move and leave a hole open for my opponent, that is a negative reward)
         self.next_state = [] # board state after my move was made (after the opponent's move too)
 
+        self.raw_outputs:list[float] = [] # raw neural network outputs
+
 # Selects the column move decision from neural network 7 outputs
 def select_column_from_outputs(outputs) -> int:
     if len(outputs) != 7:
@@ -52,7 +54,7 @@ def select_column_from_outputs(outputs) -> int:
         return chosen_column
     
 # made by GPT-4
-def random_sample(lst, percentage:float):
+def random_sample(lst:list[experience], percentage:float) -> list[experience]:
     k = int(len(lst) * percentage)
     indices = random.sample(range(len(lst)), k)
     return [lst[i] for i in indices]
