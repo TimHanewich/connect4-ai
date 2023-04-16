@@ -4,6 +4,8 @@ import random
 import connect4
 import training_tools
 import copy
+import datetime
+import os
 
 inputs:tf.keras.layers.Dense = tf.keras.layers.Input(42)
 h1:tf.keras.layers.Dense = tf.keras.layers.Dense(600, "relu", kernel_initializer="random_uniform")
@@ -27,6 +29,9 @@ model.add(outputs)
 model.compile("adam", "mean_squared_error")
 
 
+# settings
+save_every_seconds = 8*60
+save_to_directory = r"C:\Users\timh\Downloads\tah\nn\models"
 
 # set up
 g:connect4.game = connect4.game()
@@ -35,8 +40,22 @@ my_turn = True
 
 # variables we will use
 illegal_move_disqualification:bool = False
+last_saved_at:datetime = datetime.datetime.now() + datetime.timedelta(hours=-1)
 
 while True:
+
+    # time to save?
+    time_since_last_save = datetime.datetime.now() - last_saved_at
+    seconds_since_last_save = time_since_last_save.total_seconds()
+    if seconds_since_last_save > save_every_seconds:
+
+        print("Saving... ", end="")
+        save_to:str = save_to_directory + "\\" + str(datetime.datetime.now()).replace(":", "-")
+        os.mkdir(save_to)
+        model.save(save_to)
+        last_saved_at = datetime.datetime.now()
+        print("Complete!")
+
 
     # We need to check if the game is over
     need_to_reset = False
@@ -45,7 +64,7 @@ while True:
         if g.winning_for(1):
             print("Game won! ", end="")
         else:
-            print("Game lost!", end="")
+            print("Game lost! ", end="")
 
         need_to_reset = True
 
