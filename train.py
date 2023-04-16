@@ -28,9 +28,13 @@ model.compile("adam", "mean_squared_error")
 
 
 
+# set up
 g:connect4.game = connect4.game()
 replay_memory = [] # list of experienes from throughout the game
 my_turn = True
+
+# variables we will use
+illegal_move_disqualification:bool = False
 
 while True:
 
@@ -42,6 +46,10 @@ while True:
     elif g.full():
         print("The board is full!")
         need_to_reset = True
+    elif illegal_move_disqualification:
+        print("Illegal move disqualification!")
+        need_to_reset = True
+        illegal_move_disqualification = False
 
     # if there is a need to reset, reset
     if need_to_reset:
@@ -64,7 +72,25 @@ while True:
         selected_column:int = training_tools.select_column_from_outputs(outputs)
 
         # execute OUR move
-        g.drop(1, selected_column)
+        try:
+            g.drop(1, selected_column)
+        except:
+
+            # make the experience with a large negative reward because the neural net just tried to make an illegal move, resulting in instantly losing
+            exp_d:training_tools.experience = training_tools.experience()
+            exp_d.state = g.flatten()
+            exp.action = selected_column
+            exp.reward = -250.0
+            exp.next_state = g.flatten()
+            exp.raw_outputs = outputs
+
+            # add to replay memory
+            replay_memory.append(exp_d)
+
+            # mark it as disqualified so it is reset next time around
+            illegal_move_disqualification = True
+
+    else:
 
         # execute the opponent's random move
         g.random_move(-1)
@@ -109,11 +135,6 @@ while True:
             
             # backpropogate (train)
             model.fit(b_inputs, b_optimal_outputs)
-
-    else:
-
-        # actually make the opponent's move
-        g.random_move(-1)
     
     # swap who's turn it is!
     my_turn = not my_turn
