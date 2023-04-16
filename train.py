@@ -41,8 +41,14 @@ while True:
     # We need to check if the game is over
     need_to_reset = False
     if g.winning():
-        print("The game has been won!")
+
+        if g.winning_for(1):
+            print("Game won!")
+        else:
+            print("Game lost!")
+
         need_to_reset = True
+        
     elif g.full():
         print("The board is full!")
         need_to_reset = True
@@ -53,6 +59,10 @@ while True:
 
     # if there is a need to reset, reset
     if need_to_reset:
+
+        # print the net score
+        print ("Score: " + str(training_tools.net_weighted_score(g, 1)))
+
         print("Resetting... ")
         g = connect4.game()
         replay_memory.clear()
