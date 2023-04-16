@@ -48,7 +48,7 @@ while True:
             print("Game lost!")
 
         need_to_reset = True
-        
+
     elif g.full():
         print("The board is full!")
         need_to_reset = True
@@ -76,7 +76,7 @@ while True:
 
         # get model outputs
         inputs = numpy.array([g.flatten()])
-        outputs = model.predict(inputs)[0]
+        outputs = model.predict(inputs, verbose=False)[0]
 
         # what column are we choosing (what has the highest value)?
         selected_column:int = training_tools.select_column_from_outputs(outputs)
@@ -132,7 +132,7 @@ while True:
 
             # we have to get the maxq for the FOLLOWING state (the state that follows after this)
             ns_inputs = numpy.array([old_exp.next_state])
-            ns_outputs = model.predict(ns_inputs)[0]
+            ns_outputs = model.predict(ns_inputs, verbose=False)[0]
             maxqns = max(ns_outputs)
 
             # calculate target q value
@@ -144,7 +144,7 @@ while True:
             b_optimal_outputs[0][old_exp.action-1] = target_q
             
             # backpropogate (train)
-            model.fit(b_inputs, b_optimal_outputs)
+            model.fit(b_inputs, b_optimal_outputs, verbose=False)
     
     # swap who's turn it is!
     my_turn = not my_turn
