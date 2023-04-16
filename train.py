@@ -104,14 +104,11 @@ while True:
 
             # set up the data that we will use to perform the backpropogation to "correct" the neural network
             b_inputs = numpy.array([old_exp.state])
-            b_optimal_outputs = copy.copy(old_exp.raw_outputs)
-            b_optimal_outputs[old_exp.action-1] = target_q
+            b_optimal_outputs = numpy.array([copy.copy(old_exp.raw_outputs)])
+            b_optimal_outputs[0][old_exp.action-1] = target_q
             
             # backpropogate (train)
             model.fit(b_inputs, b_optimal_outputs)
-
-        # actually make the move
-        g.drop(1, selected_column)
 
     else:
 
