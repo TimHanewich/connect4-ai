@@ -43,17 +43,17 @@ while True:
     if g.winning():
 
         if g.winning_for(1):
-            print("Game won!")
+            print("Game won! ", end="")
         else:
-            print("Game lost!")
+            print("Game lost!", end="")
 
         need_to_reset = True
 
     elif g.full():
-        print("The board is full!")
+        print("The board is full! ", end="")
         need_to_reset = True
     elif illegal_move_disqualification:
-        print("Illegal move disqualification!")
+        print("Illegal move disqualification! ", end="")
         need_to_reset = True
         illegal_move_disqualification = False
 
@@ -61,9 +61,8 @@ while True:
     if need_to_reset:
 
         # print the net score
-        print ("Score: " + str(training_tools.net_weighted_score(g, 1)))
+        print("Score: " + str(training_tools.net_weighted_score(g, 1)))
 
-        print("Resetting... ")
         g = connect4.game()
         replay_memory.clear()
         my_turn = True
