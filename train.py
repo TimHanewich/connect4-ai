@@ -43,16 +43,14 @@ while True:
     # what column are we choosing (what has the highest value)?
     selected_column:int = training_tools.select_column_from_outputs(outputs)
 
-    # create an emulator and execute OUR move
-    emulator:connect4.game = connect4.game()
-    emulator.load(g.flatten())
-    emulator.drop(1, selected_column)
+    # execute OUR move
+    g.drop(1, selected_column)
 
     # execute the opponent's random move
-    emulator.random_move(-1)
+    g.random_move(-1)
     
     # measure the score AFTER our selected move was made and the opponent made his move (in the emulator)
-    ending_net_score:float = training_tools.net_weighted_score(emulator, 1)
+    ending_net_score:float = training_tools.net_weighted_score(g, 1)
 
     # the change is the reward
     reward:float = ending_net_score - starting_net_score
@@ -62,7 +60,7 @@ while True:
     exp.state = g.flatten()
     exp.action = selected_column
     exp.reward = reward
-    exp.next_state = emulator.flatten()
+    exp.next_state = g.flatten()
     exp.raw_outputs = outputs
 
     # store in replay memory
